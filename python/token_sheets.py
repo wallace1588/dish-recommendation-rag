@@ -37,29 +37,5 @@ def main():
     with open("token.json", "w") as token:
       token.write(creds.to_json())
 
-  try:
-    service = build("sheets", "v4", credentials=creds)
-
-    # Call the Sheets API
-    sheet = service.spreadsheets()
-    result = (
-        sheet.values()
-        .get(spreadsheetId=SPREADSHEET_ID, range=SAMPLE_RANGE_NAME)
-        .execute()
-    )
-    values = result.get("values", [])
-
-    if not values:
-      print("No data found.")
-      return
-
-    print("Name, Major:")
-    for row in values:
-      # Print columns A and E, which correspond to indices 0 and 4.
-      print(row)
-  except HttpError as err:
-    print(err)
-
-
 if __name__ == "__main__":
   main()
